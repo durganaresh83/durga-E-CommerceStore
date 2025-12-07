@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-service
+  template:
+    metadata:
+      labels:
+        app: frontend-service
+    spec:
+      containers:
+        - name: frontend-service
+          image: nareshdurga/frontend
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: REACT_APP_USER_SERVICE_URL
+              value: http://user-service:3001
+            - name: REACT_APP_PRODUCT_SERVICE_URL
+              value: http://product-service:3002
+            - name: REACT_APP_CART_SERVICE_URL
+              value: http://cart-service:3003
+            - name: REACT_APP_ORDER_SERVICE_URL
+              value: http://order-service:3004
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: frontend-service
+  ports:
+    - port: 3000
+      targetPort: 3000

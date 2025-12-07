@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  user-service:
+    build: ./backend/user-service
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./backend/user-service/.env
+
+  product-service:
+    build: ./backend/product-service
+    ports:
+      - "3002:3002"
+    env_file:
+      - ./backend/product-service/.env
+
+  cart-service:
+    build: ./backend/cart-service
+    ports:
+      - "3003:3003"
+    env_file:
+      - ./backend/cart-service/.env
+
+  order-service:
+    build: ./backend/order-service
+    ports:
+      - "3004:3004"
+    env_file:
+      - ./backend/order-service/.env
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - user-service
+      - product-service
+      - cart-service
+      - order-service
