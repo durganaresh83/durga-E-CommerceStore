@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Application Status</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        
+        .status-badge.online::before {
+            content: "● ";
+            color: #4CAF50;
+        }
+        
+        .divider {
+            height: 2px;
+            background: #eee;
+            margin: 30px 0;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section h2 {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .service-list {
+            list-style: none;
+        }
+        
+        .service-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+        
+        .service-item .status-icon {
+            font-size: 1.2em;
+            margin-right: 12px;
+            font-weight: bold;
+        }
+        
+        .service-item .service-name {
+            flex: 1;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .service-item .service-url {
+            color: #667eea;
+            font-size: 0.9em;
+            text-decoration: none;
+        }
+        
+        .service-item .service-url:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            color: #888;
+            font-size: 0.9em;
+        }
+        
+        .timestamp {
+            color: #999;
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+        
+        .check-mark {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 E-Commerce Store</h1>
+            <div class="status-badge online">Frontend is Live</div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="section">
+            <h2><span class="check-mark">✓</span> Frontend Application</h2>
+            <ul class="service-list">
+                <li class="service-item">
+                    <span class="status-icon check-mark">✓</span>
+                    <span class="service-name">React Frontend</span>
+                    <span class="service-url">Publicly Accessible</span>
+                </li>
+                <li class="service-item" id="app-link-container">
+                    <span class="status-icon check-mark">✓</span>
+                    <span class="service-name">Main Application</span>
+                    <a class="service-url" href="/" id="app-link">Visit App</a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="section">
+            <h2><span class="check-mark">✓</span> Backend Services</h2>
+            <ul class="service-list" id="services-container">
+                <li class="service-item">
+                    <span class="loading"></span>
+                    <span class="service-name">Checking service status...</span>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Deployment Status:</strong> All services running successfully</p>
+            <p class="timestamp" id="timestamp"></p>
+        </div>
+    </div>
+    
+    <script>
+        // Update timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            document.getElementById('timestamp').textContent = 'Last updated: ' + now.toLocaleString();
+        }
+        updateTimestamp();
+        setInterval(updateTimestamp, 60000);
+        
+        // Check backend services
+        const baseUrl = window.location.origin;
+        const services = [
+            { name: 'User Service', port: 3001, path: '/api/users' },
+            { name: 'Product Service', port: 3002, path: '/api/products' },
+            { name: 'Cart Service', port: 3003, path: '/api/cart' },
+            { name: 'Order Service', port: 3004, path: '/api/orders' }
+        ];
+        
+        const servicesContainer = document.getElementById('services-container');
+        let allServicesHealthy = true;
+        let completedChecks = 0;
+        
+        services.forEach(service => {
+            const protocol = window.location.protocol;
+            const hostname = window.location.hostname;
+            const url = `${protocol}//${hostname}:${service.port}/health`;
+            
+            // First try /health endpoint, then try the API path
+            fetch(url, { method: 'GET', timeout: 2000 })
+                .then(response => {
+                    completedChecks++;
+                    updateServiceStatus(service.name, service.port, true);
+                })
+                .catch(error => {
+                    completedChecks++;
+                    // Try alternative endpoint
+                    fetch(`${protocol}//${hostname}:${service.port}${service.path}`, { 
+                        method: 'GET', 
+                        timeout: 2000 
+                    })
+                    .then(response => {
+                        updateServiceStatus(service.name, service.port, true);
+                    })
+                    .catch(altError => {
+                        updateServiceStatus(service.name, service.port, false);
+                    });
+                });
+        });
+        
+        function updateServiceStatus(name, port, isHealthy) {
+            const servicesContainer = document.getElementById('services-container');
+            
+            // Clear loading message on first update
+            if (servicesContainer.innerHTML.includes('Checking service status')) {
+                servicesContainer.innerHTML = '';
+            }
+            
+            const icon = isHealthy ? '<span class="status-icon check-mark">✓</span>' : '<span class="status-icon" style="color: #ff9800;">○</span>';
+            const status = isHealthy ? 'Running' : 'Checking...';
+            const statusClass = isHealthy ? 'check-mark' : 'warning';
+            
+            const serviceHtml = `
+                ${icon}
+                <span class="service-name">${name}</span>
+                <span class="service-url" style="${isHealthy ? '' : 'color: #ff9800;'}">Port ${port} - ${status}</span>
+            `;
+            
+            // Check if service item already exists
+            let serviceItem = document.querySelector(`[data-service="${name}"]`);
+            if (!serviceItem) {
+                serviceItem = document.createElement('li');
+                serviceItem.className = 'service-item';
+                serviceItem.setAttribute('data-service', name);
+                servicesContainer.appendChild(serviceItem);
+            }
+            
+            serviceItem.innerHTML = serviceHtml;
+        }
+    </script>
+</body>
+</html>

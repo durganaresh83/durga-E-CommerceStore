@@ -1,11 +1,10 @@
 # Build stage
-FROM node:18-alpine AS builder
+FROM node:18 AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
-
+    RUN node ./node_modules/react-scripts/bin/react-scripts.js build
 # Production stage
 FROM node:18-alpine
 WORKDIR /app
