@@ -199,31 +199,6 @@ The application will be available at:
 - Cart Service: http://localhost:3003
 - Order Service: http://localhost:3004
 
-## 🎯 Features
-
-### User Features
-- **Authentication**: Register and login with JWT tokens
-- **Product Browsing**: View products with search, filtering, and pagination
-- **Shopping Cart**: Add, update, and remove items
-- **Checkout Process**: Complete order placement with shipping and payment
-- **Order Management**: View order history and track status
-- **Profile Management**: Update personal information and addresses
-
-### Admin Features (Future Enhancement)
-- Product and category management
-- Order status updates
-- Inventory management
-- User management
-
-### Technical Features
-- **Microservices Architecture**: Loosely coupled services
-- **RESTful APIs**: Standard HTTP methods and status codes
-- **Data Validation**: Input validation and error handling
-- **Cross-Service Communication**: HTTP-based service interactions
-- **Responsive Design**: Mobile-friendly user interface
-- **Error Handling**: Comprehensive error management
-- **Loading States**: User-friendly loading indicators
-
 ## 📁 Project Structure
 
 ```
@@ -313,36 +288,14 @@ EXPOSE 3001
 CMD ["npm", "start"]
 ```
 
-## 🤝 Contributing
+<img width="1659" height="944" alt="Screenshot 2026-03-29 185943" src="https://github.com/user-attachments/assets/d85e729a-922e-455e-81f5-63027d15884f" />
 
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+<img width="1653" height="852" alt="Screenshot 2026-03-29 190904" src="https://github.com/user-attachments/assets/55af24c2-9268-43f7-b063-83038ade211e" />
 
-## 📝 License
+<img width="1652" height="852" alt="Screenshot 2026-03-29 190918" src="https://github.com/user-attachments/assets/cff019cd-900c-4a16-a50b-73c508b4979c" />
 
-This project is licensed under the MIT License.
+<img width="1613" height="748" alt="Screenshot 2026-03-29 191116" src="https://github.com/user-attachments/assets/48c723ce-da35-45d8-b3b8-14fc0bb71505" />
 
-## 🆘 Support
 
-For support and questions:
-- Check the documentation
-- Review API endpoints and expected payloads
-- Ensure all services are running
-- Verify database connections
-- Check environment variables
 
-## 🔮 Future Enhancements
 
-- **API Gateway**: Centralized request routing and authentication
-- **Docker Containerization**: Full containerization with docker-compose
-- **Message Queues**: Async communication between services
-- **Caching**: Redis caching for improved performance
-- **Search Engine**: Elasticsearch for advanced product search
-- **File Upload**: Image upload and management
-- **Email Service**: Order confirmations and notifications
-- **Admin Dashboard**: Administrative interface
-- **Analytics**: Order and user analytics
-- **Payment Integration**: Real payment gateway integration
